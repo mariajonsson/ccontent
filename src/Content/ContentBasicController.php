@@ -61,8 +61,7 @@ public function idAction($id = null)
 
 /**
  * Add new content.
- *
- * 
+ * Shows a view with a add content form 
  *
  * @return void
  */
@@ -77,6 +76,12 @@ public function addAction()
 
 }
 
+
+/**
+ * 
+ * Checks if a form has been posted to add or edit content
+ * 
+ */
 
 public function postFormAction() 
 {
@@ -187,8 +192,6 @@ public function deleteAction($id = null)
  *
  * @return void
  */
- 
-
 public function undoDeleteAction($id = null)
 {
     if (!isset($id)) {
@@ -378,6 +381,12 @@ public function setupContentAction()
          
     
 }
+
+/**
+ * 
+ * Performs both setupAction and autoPopulateAction
+ * 
+ */
 
   public function setupPopulateAction() 
   {
