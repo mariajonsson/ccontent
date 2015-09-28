@@ -9,6 +9,8 @@ class ContentBasicController implements \Anax\DI\IInjectionAware
 {
     use \Anax\DI\TInjectable;
     
+    private $columns;
+ 
 /**
  * Initialize the controller.
  *
@@ -85,7 +87,8 @@ public function postFormAction()
 {
     
     $now = date('Y-m-d H:i:s');
-    $saved = false;
+    $published = null;
+    
     if (!empty($_POST['submit-add'])) {
     $published = !empty($_POST['published'])?$now:null;
     $saved = $this->content->save(array('title' => $_POST['title'], 'url' => $_POST['url'], 'slug' => $_POST['slug'], 'acronym' => $_POST['acronym'], 'created' => $now, 'data' => $_POST['data'], 'filter' => $_POST['filter'], 'type' => $_POST['type'], 'published' => $published));
@@ -97,11 +100,8 @@ public function postFormAction()
         else if ($_POST['publisheddate'] != null && empty($_POST['published'])) {
 	    $published = null;
         }
-        else 
-        {
-        $published = $_POST['publisheddate'];
-        }
-        
+        else $published = $_POST['publisheddate'];
+   
     $saved = $this->content->save(array('id' => $_POST['id'], 'title' => $_POST['title'], 'url' => $_POST['url'], 'slug' => $_POST['slug'], 'acronym' => $_POST['acronym'], 'created' => $now, 'data' => $_POST['data'], 'filter' => $_POST['filter'], 'type' => $_POST['type'], 'published' => $published));
     }
     
@@ -109,7 +109,7 @@ public function postFormAction()
       $this->dispatcher->forward([
         'controller' => 'content-basic',
         'action'     => 'list',
-
+        //'params'     => [],
       ]);
     }
     else {
@@ -178,7 +178,7 @@ public function deleteAction($id = null)
         die("Missing id");
     }
  
-    $this->content->delete($id);
+    $res = $this->content->delete($id);
  
     $url = $this->url->create('content-basic/list');
     $this->response->redirect($url);
@@ -397,7 +397,7 @@ public function setupContentAction()
     $this->dispatcher->forward([
         'controller' => 'content-basic',
         'action'     => 'list',
-
+        //'params'     => [],
     ]);
     
   
